@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
                    t.status as task_status
             FROM users u
                 LEFT JOIN users_roles ur on u.id = ur.user_id
-                LEFT JOIN users_tasks ut on u.id = ut.user_id
+                LEFT JOIN user_tasks ut on u.id = ut.user_id
                 LEFT JOIN tasks t on ut.task_id = t.id
             WHERE u.id = ?""";
 
@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
                    t.status as task_status
             FROM users u
                 LEFT JOIN users_roles ur on u.id = ur.user_id
-                LEFT JOIN users_tasks ut on u.id = ut.user_id
+                LEFT JOIN user_tasks ut on u.id = ut.user_id
                 LEFT JOIN tasks t on ut.task_id = t.id
             WHERE u.username = ?""";
 
@@ -72,7 +72,7 @@ public class UserRepositoryImpl implements UserRepository {
     private final String IS_TASK_OWNER = """
             SELECT exists(
                            SELECT 1
-                           FROM users_tasks
+                           FROM user_tasks
                            WHERE user_id = ?
                              AND task_id = ?
                        )""";
@@ -83,17 +83,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findById(Long id) {
-         try {
-             Connection connection = dataSourceConfig.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-             preparedStatement.setLong(1,id);
-             try(ResultSet resultSet = preparedStatement.executeQuery()){
+        try {
+            Connection connection = dataSourceConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            preparedStatement.setLong(1,id);
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
                 return Optional.ofNullable(UserRowMapper.mapRow(resultSet));
-             }
+            }
 
-         }catch (SQLException throwables){
-             throw new ResourceMappingException("Exception while finding user by id!");
-         }
+        }catch (SQLException throwables){
+            throw new ResourceMappingException("Exception while finding user by id!");
+        }
     }
 
     @Override

@@ -31,7 +31,7 @@ public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
 
-    private final UserDetailsService userDetailsService;
+    private final JwtUserDetailsService userDetailsService;
     private final UserService userService;
     private SecretKey key;
 

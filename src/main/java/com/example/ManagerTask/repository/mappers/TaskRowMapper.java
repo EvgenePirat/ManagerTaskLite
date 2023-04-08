@@ -32,12 +32,12 @@ public class TaskRowMapper {
         List<Task> taskList = new ArrayList<>();
         if(resultSet.next()){
             Task task = new Task();
-            task.setId(resultSet.getLong("id"));
+            task.setId(resultSet.getLong("task_id"));
             if(!resultSet.wasNull()){
-                task.setTittle(resultSet.getString("tittle"));
-                task.setDescription(resultSet.getString("description"));
-                task.setStatus(Status.valueOf(resultSet.getString("status")));
-                Timestamp timestamp = resultSet.getTimestamp("expiration_date");
+                task.setTittle(resultSet.getString("task_title"));
+                task.setDescription(resultSet.getString("task_description"));
+                task.setStatus(Status.valueOf(resultSet.getString("task_status")));
+                Timestamp timestamp = resultSet.getTimestamp("task_expiration_date");
                 if(timestamp != null){
                     task.setDateTime(timestamp.toLocalDateTime());
                 }

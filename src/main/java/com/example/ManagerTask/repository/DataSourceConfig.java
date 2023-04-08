@@ -11,7 +11,7 @@ import java.sql.Connection;
 @RequiredArgsConstructor
 public class DataSourceConfig {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public Connection getConnection(){
         return DataSourceUtils.getConnection(dataSource);
